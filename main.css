@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    list-style: none;
+}
+
+:root {
+    --border-radius: 3px
+}
+
+body {
+    padding: 5rem;
+    background-color: brown;
+    color: antiquewhite;
+    font-size: 20px;
+}
+
+input {
+    font-size: 20px;
+}
+
+.input-parent {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #00000026;
+    -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+.input-parent > input {
+    font-size: 1.5rem;
+}
+
+.input-parent > label {
+    padding-left: 1rem;
+}
+
+input {
+    padding: 0.6rem;
+    border-radius: var(--border-radius);
+    color: brown;
+}
+
+
+.todo-item {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 1rem;
+
+    -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+
+.todo-item p {
+    padding: 0.5rem;
+    background-color: white;
+    color: brown;
+    border-radius: var(--border-radius);
+}
+
+.todo-item p, .todo-item input {
+    flex-grow: 1;
+}
+
+
+.todo-item {
+    -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+
+    padding: 0.5rem 0.8rem;
+}
+
+.list {
+    width: 70%;
+    margin: 5rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+}
+
+.todo-item-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+button {
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    padding: 0.6rem 1rem;
+    color: white;
+}
+
+button[data-danger] {
+    background-color: darkred;
+}
+
+button[data-primary] {
+    background-color: midnightblue;
+}
+
+.remove-icon:before {
+    content: "\2718";
+}
+
+.checked:before {
+    content: "\2611";
+}
+
+.unchecked:before {
+    content: "\2610";
+}
+
+.del {
+    text-decoration: line-through;
+}

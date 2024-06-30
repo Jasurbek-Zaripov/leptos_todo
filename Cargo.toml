@@ -1,0 +1,17 @@
+[package]
+name = "leptos_todo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+console_error_panic_hook = "0.1.7"
+leptos = { version = "0.6.12", features = ["csr"] }
+leptos-use = { version = "0.10.10", features = ["serde"] }
+serde = { version = "1.0.203", features = ["derive"] }
+
+[package.metadata.leptonic]
+# REQUIRED: Leptonic's build-script will copy the Leptonic themes to this directory.
+style-dir = "style"
+
+# REQUIRED: Leptonic's build-script will copy static JS dependencies to this directory.
+js-dir = "public/js"
