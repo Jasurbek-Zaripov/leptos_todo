@@ -18,13 +18,8 @@ body {
     font-size: 20px;
 }
 
-input {
-    font-size: 20px;
-}
-
 .input-parent {
     display: flex;
-    flex-direction: column;
     gap: 2px;
     padding: 0.5rem;
     border-radius: var(--border-radius);
@@ -34,7 +29,7 @@ input {
     box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
 }
 
-.input-parent > input {
+.input-parent textarea, .input-parent input {
     font-size: 1.5rem;
 }
 
@@ -42,10 +37,14 @@ input {
     padding-left: 1rem;
 }
 
-input {
+textarea, input {
     padding: 0.6rem;
     border-radius: var(--border-radius);
     color: brown;
+    font-size: 20px;
+    resize: vertical;
+    min-height: 3rem;
+    height: 3rem;
 }
 
 
@@ -59,18 +58,6 @@ input {
     -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
     -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
     box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-}
-
-
-.todo-item p {
-    padding: 0.5rem;
-    background-color: white;
-    color: brown;
-    border-radius: var(--border-radius);
-}
-
-.todo-item p, .todo-item input {
-    flex-grow: 1;
 }
 
 
@@ -104,6 +91,7 @@ button {
     border-radius: var(--border-radius);
     padding: 0.6rem 1rem;
     color: white;
+    max-height: 2.6rem;
 }
 
 button[data-danger] {
@@ -124,8 +112,4 @@ button[data-primary] {
 
 .unchecked:before {
     content: "\2610";
-}
-
-.del {
-    text-decoration: line-through;
 }
