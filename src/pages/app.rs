@@ -1,17 +1,33 @@
 use leptos::*;
-use leptos::ev::Event;
+use leptos::ev::MouseEvent;
 use leptos_use::storage::use_local_storage;
 use leptos_use::utils::JsonCodec;
 use serde::{Deserialize, Serialize};
 
 use crate::components::todo_item::{TodoItem, TodoItemProp};
 
+pub enum Status {
+    Todo,
+    Pending,
+    Completed,
+}
+impl Status {
+    pub(crate) fn value(&self) -> String {
+        match self {
+            Status::Todo => String::from("Todo"),
+            Status::Pending => String::from("Pending"),
+            Status::Completed => String::from("Completed"),
+        }
+    }
+}
+
+
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct TodoItemStruct {
     pub(crate) id: usize,
     pub(crate) text: String,
     pub(crate) created_at: String,
-    pub(crate) completed: bool,
+    pub(crate) status: String,
 }
 
 impl Default for TodoItemStruct {
@@ -20,7 +36,7 @@ impl Default for TodoItemStruct {
             id: 0,
             text: String::new(),
             created_at: String::new(),
-            completed: false,
+            status: Status::Todo.value(),
         }
     }
 }
@@ -32,37 +48,20 @@ pub fn App() -> impl IntoView {
     let (order, set_order) = create_signal(0_usize);
     let (time, set_time) = create_signal(String::new());
 
-    let on_change_text = move |event: Event| {
-        set_new_todo.set(event_target_value(&event));
+    let on_create_todo = move |_: MouseEvent| {
         if new_todo.get().len() > 0 && time.get().len() > 0 {
             set_todo_list.update(|list: &mut Vec<TodoItemStruct>| {
                 (*list).push(TodoItemStruct {
                     id: order.get(),
                     text: new_todo.get(),
                     created_at: time.get(),
-                    completed: false,
+                    status: String::from("Todo"),
                 });
             });
             set_order.update(|n| {
                 *n += 1;
             });
             set_new_todo.set(String::new());
-        };
-    };
-    let on_change_time = move |event: Event| {
-        set_time.set(event_target_value(&event));
-        if new_todo.get().len() > 0 && time.get().len() > 0 {
-            set_todo_list.update(|list: &mut Vec<TodoItemStruct>| {
-                (*list).push(TodoItemStruct {
-                    id: order.get(),
-                    text: new_todo.get(),
-                    created_at: time.get(),
-                    completed: false,
-                });
-            });
-            set_order.update(|n| {
-                *n += 1;
-            });
             set_time.set(String::new());
         };
     };
@@ -83,36 +82,45 @@ pub fn App() -> impl IntoView {
     });
 
     view! {
-        <div>
-            <div class="input-parent">
-                <label style="flex-grow:1;">
-                    <p>"TODO"</p>
-                    <textarea style="width:100%;" type="text" on:change={on_change_text}  placeholder="what are your plans ?" prop:value={move || new_todo.get()}/>
-                </label>
-                <label>
-                    <p>TODO time</p>
-                    <input type="datetime-local" prop:value=move||time.get() on:change={on_change_time}/>
-                </label>
+        <div class="todo-container">
+            <h1>TODO List</h1>
+
+            <div class="input-container">
+                <input type="text" placeholder="What would you like to do?" on:change=move |ev| set_new_todo.set(event_target_value(&ev)) prop:value={move || new_todo.get()} />
+                <input type="datetime-local" prop:value=move||time.get() on:change=move |ev|set_time.set(event_target_value(&ev)) />
+                <button on:click={on_create_todo}>Add</button>
             </div>
-            <ul class="list">
-                <For
-                each=move || todo_list.get()
-                key=|todo| todo.id.clone()
-                children=move |todo| {
-                  view! {
-                    <li class="list-item">
-                        <TodoItem prop={TodoItemProp {
-                                value:todo.clone(),
-                                on_complete:edit_callback.clone(),
-                                on_text:edit_callback.clone(),
-                                on_remove:remove_todo.clone(),
-                                on_time:edit_callback.clone(),
-                        }} />
-                    </li>
-                  }
-                }
-              />
-            </ul>
+
+            <div class="todo-list">
+                <table>
+                    <caption>"Todo List"</caption>
+                    <thead>
+                        <tr>
+                            <td>List</td>
+                            <td>Status</td>
+                            <td>Time</td>
+                            <td>Close</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <For
+                            each=move || todo_list.get()
+                            key=|todo| todo.id.clone()
+                            children=move |todo| {
+                              view! {
+                                    <TodoItem prop={TodoItemProp {
+                                            value:todo.clone(),
+                                            on_complete:edit_callback.clone(),
+                                            on_text:edit_callback.clone(),
+                                            on_remove:remove_todo.clone(),
+                                            on_time:edit_callback.clone(),
+                                    }} />
+                              }
+                            }
+                          />
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 }

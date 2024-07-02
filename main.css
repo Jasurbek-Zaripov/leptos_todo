@@ -5,111 +5,131 @@
     outline: none;
     border: none;
     list-style: none;
+    border-collapse: collapse;
 }
 
 :root {
-    --border-radius: 3px
+    --body-bg-color: #f7f0ef;
+    --gradiant-from: #614485;
+    --gradiant-to: #526295;
+    --container-bg-color: #f7f7ff;
+    --btn-add-bg-color: #ed6a5a;
+    --table-header-bg-color: #f9f9f9;
+    --table-tr-border-color: #ededed;
+    --status-bg-color: #9bc1bc;
+    --btn-close-bg-color: #ee7464;
+    --border-radius: 10px;
 }
 
 body {
-    padding: 5rem;
-    background-color: brown;
-    color: antiquewhite;
-    font-size: 20px;
-}
-
-.input-parent {
+    font-family: Arial, sans-serif;
+    background-color: var(--body-bg-color);
     display: flex;
-    gap: 2px;
-    padding: 0.5rem;
-    border-radius: var(--border-radius);
-    border: 1px solid #00000026;
-    -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
 }
 
-.input-parent textarea, .input-parent input {
-    font-size: 1.5rem;
+.todo-container > * {
+    z-index: 5;
+    position: relative;
 }
 
-.input-parent > label {
-    padding-left: 1rem;
-}
-
-textarea, input {
-    padding: 0.6rem;
-    border-radius: var(--border-radius);
-    color: brown;
-    font-size: 20px;
-    resize: vertical;
-    min-height: 3rem;
-    height: 3rem;
-}
-
-
-.todo-item {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    gap: 1rem;
-
-    -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-}
-
-
-.todo-item {
-    -webkit-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-
-    padding: 0.5rem 0.8rem;
-}
-
-.list {
+.todo-container {
     width: 70%;
-    margin: 5rem auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 2rem;
+
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    background-color: var(--container-bg-color);
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.05);
 }
 
-.todo-item-buttons {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 5px;
-    align-items: stretch;
-    justify-content: flex-end;
+.todo-container:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background: rgb(97, 68, 133);
+    background: linear-gradient(90deg, rgba(97, 68, 133, 1), rgba(82, 98, 149, 1) 80%);
+    z-index: 1;
 }
 
-button {
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    padding: 0.6rem 1rem;
+h1 {
     color: white;
-    max-height: 2.6rem;
+    font-weight: 100;
 }
 
-button[data-danger] {
-    background-color: darkred;
+.input-container, .todo-list {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.05);
+    padding: 2rem 0;
 }
 
-button[data-primary] {
-    background-color: midnightblue;
+.input-container input[type="text"] {
+    border-bottom: 1px solid black;
+    font-size: 1.1rem;
+    width: 63%;
 }
 
-.remove-icon:before {
-    content: "\2718";
+.input-container input[type="datetime-local"] {
+    border-bottom: 1px solid black;
+    font-size: 1rem;
+    width: 63%;
 }
 
-.checked:before {
-    content: "\2611";
+.input-container button {
+    color: white;
+    background-color: var(--btn-add-bg-color);
+    padding: 0.5rem 4rem;
+    border-radius: calc(var(--border-radius) / 2);
+    font-size: 1rem;
+    box-shadow: 0 8px 20px 0 #ed6a5a94
 }
 
-.unchecked:before {
-    content: "\2610";
+.todo-list {
+    margin: 0.5rem auto;
+}
+
+table {
+    width: 100%;
+}
+
+caption {
+    text-align: left;
+    font-weight: 700;
+    font-size: 1.3rem;
+    padding: 1rem;
+}
+
+thead {
+    background: var(--table-header-bg-color);
+}
+
+td {
+    text-align: center;
+    padding: 1rem;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--table-tr-border-color);
+}
+
+tbody input, tbody select {
+    text-align: center;
 }
