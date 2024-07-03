@@ -92,17 +92,8 @@ pub fn App() -> impl IntoView {
             </div>
 
             <div class="todo-list">
-                <table>
-                    <caption>"Todo List"</caption>
-                    <thead>
-                        <tr>
-                            <td>List</td>
-                            <td>Status</td>
-                            <td>Time</td>
-                            <td>Close</td>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <h2>"Todo List"</h2>
+                <div class="todo-in-container">
                         <For
                             each=move || todo_list.get()
                             key=|todo| todo.id.clone()
@@ -118,8 +109,7 @@ pub fn App() -> impl IntoView {
                               }
                             }
                           />
-                    </tbody>
-                </table>
+                </div>
             </div>
         </div>
     }
