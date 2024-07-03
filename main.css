@@ -20,9 +20,61 @@
     --btn-close-bg-color: #ee7464;
     --border-radius: 10px;
     --thead-color: #999999;
+    --container-shadow-black: 0, 0, 0, 0.05;
+    --input-border-color: black;
+    --h1-color: white;
+    --todo-list-bg-color: white;
+    --btn-add-shadow-color: #ed6a5a94;
+    --status-shadow-color: #9bc1bc61;
+    --delete-btn-shadow-color: #ff00002e;
+    --placeholder-color: #8e8e8e;
+    --delete-btn-bg-color: white;
+    --dark-mode-bg-color: #ccb7ae;
+    --dark-mode-color: white;
+    --darm-mode-bottom: 1.5rem;
+    --darm-mode-right: 1.5rem;
+    --dark-mode-content: '\263E';
+}
+
+.Dark {
+    --body-bg-color: #222831;
+    --todo-list-bg-color: #31363F;
+    --container-bg-color: #EEEEEE;
+    --input-border-color: white;
+    --gradiant-from: #1c1c1c;
+    --gradiant-to: #001022;
+    --btn-add-shadow-color: rgba(237, 106, 90, 0.25);
+    --status-shadow-color: rgba(155, 193, 188, 0.15);
+    --delete-btn-shadow-color: rgba(255, 0, 0, 0.08);
+    --placeholder-color: #555967;
+    --delete-btn-bg-color: rgba(0, 0, 0, 0.16);
+    --container-shadow-black: 118, 171, 174, 1;
+    --dark-mode-bg-color: #66728e;
+    --dark-mode-content: '\2600';
+}
+
+::placeholder {
+    color: var(--placeholder-color);
+}
+
+.Dark input:not(:disabled) {
+    background-color: var(--todo-list-bg-color);
+    color: white;
+    color-scheme: dark;
+}
+
+.Dark h2 {
+    color: rgba(255, 255, 255, 0.52);
+}
+
+.Dark input:disabled {
+    background-color: rgba(0, 0, 0, 0.24);
+    color: rgba(255, 255, 255, 0.42);
+    color-scheme: dark;
 }
 
 body {
+    position: relative;
     font-family: Arial, sans-serif;
     background-color: var(--body-bg-color);
     min-height: 100vh;
@@ -45,7 +97,7 @@ body {
     align-items: center;
     gap: 0.8rem;
     background-color: var(--container-bg-color);
-    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 4px 8px 0 rgba(var(--container-shadow-black));
     width: 80%;
     margin: 5rem auto;
 }
@@ -57,18 +109,17 @@ body {
     left: 0;
     width: 100%;
     height: 25%;
-    background: rgb(97, 68, 133);
-    background: linear-gradient(90deg, rgba(97, 68, 133, 1), rgba(82, 98, 149, 1) 80%);
+    background: linear-gradient(90deg, var(--gradiant-from), var(--gradiant-to) 80%);
     z-index: 1;
 }
 
 h1 {
-    color: white;
+    color: var(--h1-color);
     font-weight: 100;
 }
 
 .input-container, .todo-list {
-    background-color: #fff;
+    background-color: var(--todo-list-bg-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,7 +127,7 @@ h1 {
     gap: 1rem;
     width: 100%;
     border-radius: var(--border-radius);
-    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 4px 8px 0 rgba(var(--container-shadow-black));
     padding: 4rem 0;
 }
 
@@ -85,8 +136,13 @@ h1 {
 }
 
 input:not([readonly]) {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--input-border-color);
     border-radius: 0;
+}
+
+.input-container input {
+    padding: 0.4rem;
+    border-radius: 5px 5px 0 0;
 }
 
 .input-container input[type="text"] {
@@ -105,7 +161,7 @@ input:not([readonly]) {
     padding: 0.5rem 4rem;
     border-radius: calc(var(--border-radius) / 2);
     font-size: 1rem;
-    box-shadow: 0 8px 20px 0 #ed6a5a94
+    box-shadow: 0 8px 20px 0 var(--btn-add-shadow-color);
 }
 
 .todo-list {
@@ -140,7 +196,7 @@ p {
 .todo-in-container select {
     color: white;
     background-color: var(--status-bg-color);
-    box-shadow: 0 8px 20px 0 #9bc1bc61;
+    box-shadow: 0 8px 20px 0 var(--status-shadow-color);
 }
 
 button, select, input[readonly] {
@@ -148,14 +204,14 @@ button, select, input[readonly] {
 }
 
 .delete-btn {
-    background-color: transparent;
+    background-color: var(--delete-btn-bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     padding: 0.3rem;
     border-radius: 5px;
-    box-shadow: 0 8px 20px 0 #ff00002e;
+    box-shadow: 0 8px 20px 0 var(--delete-btn-shadow-color);
 }
 
 .todo-in-container > div {
@@ -166,7 +222,35 @@ button, select, input[readonly] {
     gap: 1rem;
 }
 
+.dark-mode-button {
+    position: fixed;
+    bottom: var(--darm-mode-bottom);
+    right: var(--darm-mode-right);
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    background-color: var(--dark-mode-bg-color);
+    color: var(--dark-mode-color);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.dark-mode-button:before {
+    content: var(--dark-mode-content);
+    font-size: 3rem;
+    width: 50px;
+    height: 68px;
+}
+
 @media only screen and (max-width: 860px) {
+    :root {
+        --darm-mode-right: 0;
+        --darm-mode-bottom: 0;
+    }
+
     .todo-in-container > div {
         grid-template-columns: auto;
     }
@@ -178,4 +262,5 @@ button, select, input[readonly] {
     .delete-btn {
         width: 30px;
     }
+
 }

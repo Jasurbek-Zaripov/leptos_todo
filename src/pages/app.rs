@@ -1,6 +1,7 @@
 use leptos::*;
 use leptos::ev::MouseEvent;
 use leptos_use::storage::use_local_storage;
+use leptos_use::use_document;
 use leptos_use::utils::JsonCodec;
 use serde::{Deserialize, Serialize};
 
@@ -18,6 +19,25 @@ impl Status {
             Status::Pending => String::from("Pending"),
             Status::Completed => String::from("Completed"),
         }
+    }
+}
+
+#[derive(Clone, PartialEq, Serialize, Deserialize)]
+pub enum EnumMode {
+    Light,
+    Dark,
+}
+impl EnumMode {
+    pub(crate) fn value(&self) -> String {
+        match self {
+            EnumMode::Dark => String::from("Dark"),
+            EnumMode::Light => String::from("Light"),
+        }
+    }
+}
+impl Default for EnumMode {
+    fn default() -> EnumMode {
+        EnumMode::Light
     }
 }
 
@@ -43,10 +63,18 @@ impl Default for TodoItemStruct {
 
 #[component]
 pub fn App() -> impl IntoView {
+    let (mode, set_mode, _) = use_local_storage::<String, JsonCodec>("MODE");
     let (todo_list, set_todo_list, _) = use_local_storage::<Vec<TodoItemStruct>, JsonCodec>("TODO");
     let (new_todo, set_new_todo) = create_signal(String::new());
     let (order, set_order) = create_signal(0_usize);
     let (time, set_time) = create_signal(String::new());
+    let document = use_document();
+
+    create_effect(move |_| {
+        if let Some(body) = document.body() {
+            body.set_class_name(&*mode.get())
+        }
+    });
 
     let on_create_todo = move |_: MouseEvent| {
         if new_todo.get().len() > 0 && time.get().len() > 0 {
@@ -81,8 +109,17 @@ pub fn App() -> impl IntoView {
         );
     });
 
+    let on_click_mode = move |_: MouseEvent| {
+        if mode.get() == EnumMode::Light.value() {
+            set_mode.set(EnumMode::Dark.value());
+        } else {
+            set_mode.set(EnumMode::Light.value());
+        }
+    };
+
     view! {
         <div class="todo-container">
+            <button class="dark-mode-button" on:click={on_click_mode}></button>
             <h1>TODO List</h1>
 
             <div class="input-container">
